@@ -1,0 +1,26 @@
+name: Generate PR documentation
+
+on:
+  workflow_dispatch:
+
+jobs:
+  generate-docs:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Setup Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: "3.x"
+
+    - name: Install dependencies
+      run: pip install gitpython openai
+
+    - name: Generate PR documentation
+      if: ${{ github.event_name == 'workflow_dispatch' }}
+      run: python generate_docs.py ${{ github.event.inputs.pr_number }}
+      env:
+        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
