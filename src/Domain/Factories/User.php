@@ -19,4 +19,9 @@ class User
     {
         return new UserEntity($documentId, '', 0);
     }
+
+    static public function emptyUser(): UserEntity
+    {
+        return new UserEntity('', '', 0);
+    }
 }
