@@ -12,7 +12,7 @@ repo_dir = sys.argv[1]
 repo = git.Repo(repo_dir)
 
 # Fetch the PR diff from GitHub API
-diff_lines = repo.git.diff('main')
+diff_lines = repo.git.diff('origin/main')
 
 # Initialize variables for added, deleted, and modified lines
 added_lines = []
