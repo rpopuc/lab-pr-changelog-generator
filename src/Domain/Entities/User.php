@@ -4,13 +4,13 @@ namespace App\Domain\Entities;
 
 class User
 {
-    private string $fiscalId;
+    private string $documentId;
     private string $name;
     private int $age;
 
-    public function __construct(string $fiscalId, string $name, int $age)
+    public function __construct(string $documentId, string $name, int $age)
     {
-        $this->fiscalId = $fiscalId;
+        $this->documentId = $documentId;
         $this->name = $name;
         $this->age = $age;
     }
