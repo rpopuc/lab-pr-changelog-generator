@@ -14,4 +14,9 @@ class User
             $userData['age'] ?? 0
         );
     }
+
+    static public function fromDocumentId(string $documentId): UserEntity
+    {
+        return new UserEntity($documentId, '', 0);
+    }
 }
