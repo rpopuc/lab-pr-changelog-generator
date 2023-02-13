@@ -22,6 +22,6 @@ jobs:
     - name: Generate PR documentation
       if: ${{ github.event_name == 'workflow_dispatch' }}
       # ${{ github.event.inputs.pr_number }}
-      run: python ${{ github.workspace }}/.github/workflows/generate_docs.py 1 ${{ github.workspace }}
+      run: python ${{ github.workspace }}/.github/workflows/generate_docs.py ${{ github.workspace }}
       env:
         OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}

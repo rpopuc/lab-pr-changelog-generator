@@ -7,39 +7,12 @@ import difflib
 # Authenticate with OpenAI API
 openai.api_key = os.environ["OPENAI_API_KEY"]
 
-# Load GPT-3 model
-# model_engine = "text-davinci-003"
-# model = openai.Model.load(model_engine)
-
 # Clone the repository to a local directory
-repo_dir = sys.argv[2]
+repo_dir = sys.argv[1]
 repo = git.Repo(repo_dir)
-# repo_url = "https://github.com/rpopuc/lab-pr-changelog-generator"
-# repo_dir = "/tmp/repo"
-# repo = git.Repo.clone_from(repo_url, repo_dir)
 
 # Fetch the PR diff from GitHub API
-# pr_number = sys.argv[1]
-diff_lines = repo.git.diff(f"origin/main")
-
-# newFiles = set()
-# changedFiles = set()
-# for line in diff_lines.splitlines(True):
-#     if line.startswith("+++"):
-#         file_path = line[4:]
-#         if file_path.startswith("b/"):
-#             newFiles.add(file_path[2:].rstrip())
-#         else:
-#             changedFiles.add(file_path)
-
-# original_code = []
-# for file in newFiles:
-#     original_code.append(file + ':')
-#     # original_code.append(repo.git.show(f"origin/main:{file}"))
-#     with open(repo_dir + '/' + file) as f:
-#         original_code.append("".join(f.readlines()))
-#         f.close()
-#     original_code.append('')
+diff_lines = repo.git.diff('main')
 
 # Initialize variables for added, deleted, and modified lines
 added_lines = []
@@ -69,7 +42,7 @@ modified_code = "".join(modified_lines)
 
 response = openai.Completion.create(
   model="text-davinci-003",
-  prompt=f"Based only on this diffs:\nAdded code:\n{added_code}\nDeleted code:\n{deleted_code}\nModified code:\n{modified_code}.\n\nExplain the main changes made on the code in terms of added, changed or removed funcionality.",
+  prompt=f"Based only on this diffs:\nAdded code:\n{added_code}\nDeleted code:\n{deleted_code}\nModified code:\n{modified_code}.\n\nExplain the main changes, one per line, made on the code in terms of added, changed or removed funcionality.",
   temperature=0.7,
   max_tokens=400,
   top_p=1.0,
