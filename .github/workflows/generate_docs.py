@@ -8,11 +8,14 @@ import difflib
 openai.api_key = os.environ["OPENAI_API_KEY"]
 
 # Clone the repository to a local directory
-repo_dir = sys.argv[1]
-repo = git.Repo(repo_dir)
+# repo_dir = sys.argv[1]
+# repo = git.Repo(repo_dir)
+repo_url = "https://github.com/rpopuc/lab-pr-changelog-generator"
+repo_dir = "/tmp/repo"
+repo = git.Repo.clone_from(repo_url, repo_dir)
 
 # Fetch the PR diff from GitHub API
-diff_lines = repo.git.diff('main')
+diff_lines = repo.git.diff('origin/pull/1')
 
 # Initialize variables for added, deleted, and modified lines
 added_lines = []
