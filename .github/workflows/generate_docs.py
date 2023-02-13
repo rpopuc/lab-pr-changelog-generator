@@ -10,7 +10,7 @@ openai.api_key = os.environ["OPENAI_API_KEY"]
 # Clone the repository to a local directory
 # repo_dir = sys.argv[1]
 # repo = git.Repo(repo_dir)
-repo_url = "https://github.com/rpopuc/lab-pr-changelog-generator"
+repo_url = "git@github.com:rpopuc/lab-pr-changelog-generator.git"
 repo_dir = "/tmp/repo"
 repo = git.Repo.clone_from(repo_url, repo_dir)
 
