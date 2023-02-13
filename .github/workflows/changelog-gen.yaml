@@ -9,10 +9,10 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Setup Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v3
       with:
         python-version: "3.x"
 
@@ -22,6 +22,8 @@ jobs:
     - name: Generate PR documentation
       if: ${{ github.event_name == 'workflow_dispatch' }}
       # ${{ github.event.inputs.pr_number }}
-      run: python ${{ github.workspace }}/.github/workflows/generate_docs.py ${{ github.workspace }}
       env:
         OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      run: |
+        git branch
+        python ${{ github.workspace }}/.github/workflows/generate_docs.py ${{ github.workspace }}
