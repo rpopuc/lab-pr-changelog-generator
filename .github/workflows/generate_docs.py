@@ -50,6 +50,10 @@ response = openai.Completion.create(
   presence_penalty=0.0
 )
 
-# Extract the summary from the result
+# # Extract the summary from the result
 summary = response.choices[0].text.strip()
+# summary = """1. Added code for the pull_request trigger type to generate comments.
+# 2. Added code to the add-comment step to create a comment on the pull request.
+# 3. Removed code for the workflow_dispatch trigger type."""
+
 print(summary)

@@ -1,12 +1,15 @@
 name: Generate PR documentation
 
 on:
-  workflow_dispatch:
+  pull_request:
+    types: [opened, synchronize]
 
 jobs:
   generate-docs:
     runs-on: ubuntu-latest
-
+    if: "! github.event.pull_request.draft"
+    outputs:
+      comments: ${{ steps.generate-comments.outputs.comments }}
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
@@ -22,10 +25,25 @@ jobs:
       run: pip install gitpython openai
 
     - name: Generate PR documentation
-      if: ${{ github.event_name == 'workflow_dispatch' }}
-      # ${{ github.event.inputs.pr_number }}
+      id: generate-comments
       env:
         OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       run: |
-        git branch
-        python ${{ github.workspace }}/.github/workflows/generate_docs.py ${{ github.workspace }}
+        comments=`python ${{ github.workspace }}/.github/workflows/generate_docs.py ${{ github.workspace }}`
+        echo $comments
+        echo "comments<<EOF" >> $GITHUB_OUTPUT
+        echo "$comments" >> $GITHUB_OUTPUT
+        echo "EOF" >> $GITHUB_OUTPUT
+
+  add-comment:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    if: "! github.event.pull_request.draft"
+    needs:
+      - generate-docs
+    steps:
+      - uses: mshick/add-pr-comment@v2
+        with:
+          message: |
+            ${{ needs.generate-docs.outputs.comments }}
