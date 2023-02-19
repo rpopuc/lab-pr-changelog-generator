@@ -2,6 +2,8 @@
 
 A POC for a pipeline that generates a changelog for a given PR - using code diffs and OpenAI's API - and adds it to the PR as a comment.
 
+![Example](docs/example.png)
+
 ## Configuration
 
 The secret `OPENAI_API_KEY` must be defined in Github in order for the application to authenticate with OpenAI's API.
